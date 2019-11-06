@@ -1,2 +1,4 @@
-# thingpilot_telemetry_formatter
-Formats timeseries and instantaneous telemetry data for consumption by the thingpilot data platform API
+## Telemetry Formatter Release Notes
+**v0.1.0** *06/11/2019*
+
+ - 

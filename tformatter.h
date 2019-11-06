@@ -1,8 +1,8 @@
 /**
   * @file    tformatter.h
   * @version 1.0.0
-  * @author  
-  * @brief   Header file of the  
+  * @author  Adam Mitchell
+  * @brief   Header file of the thingpilot telemetry formatter 
   */
 
 /** Define to prevent recursive inclusion
@@ -12,3 +12,17 @@
 /** Includes 
  */
 #include <mbed.h>
+
+
+class TFormatter
+{
+
+	public:
+
+		TFormatter();
+
+		~TFormatter();
+
+	private:
+
+};
