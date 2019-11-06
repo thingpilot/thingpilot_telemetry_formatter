@@ -1,6 +1,6 @@
 /**
   * @file    tformatter.cpp
-  * @version 1.0.0
+  * @version 0.1.0
   * @author  Adam Mitchell
   * @brief   C++ file of the thingpilot telemetry formatter
   */
@@ -18,5 +18,5 @@ TFormatter::TFormatter()
 
 TFormatter::~TFormatter()
 {
-	
+
 }

@@ -1,6 +1,6 @@
 /**
   * @file    tformatter.h
-  * @version 1.0.0
+  * @version 0.1.0
   * @author  Adam Mitchell
   * @brief   Header file of the thingpilot telemetry formatter 
   */
