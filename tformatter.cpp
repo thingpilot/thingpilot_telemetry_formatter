@@ -34,10 +34,10 @@ void TFormatter::setup()
     if(!_is_initialised)
     {
         #if BOARD == EARHART_V1_0_0 
-          general_cbor_array= new uint8_t[255]; //255
+            general_cbor_array= new uint8_t[1000]; 
         #endif
         #if BOARD == WRIGHT_V1_0_0
-         general_cbor_array= new uint8_t[4096];
+            general_cbor_array= new uint8_t[4096];
         #endif
 
         r_entries=0;
@@ -58,7 +58,7 @@ void TFormatter::serialise_main_cbor_object(uint8_t num)
     write(num, ARRAY);
 }
 
-void TFormatter::get_final_serialised(uint8_t* buffer, size_t& buffer_len)
+void TFormatter::return_serialised(uint8_t* buffer, size_t& buffer_len)
 {
     for (int i=0; i<entries; i++)
     {
@@ -69,11 +69,11 @@ void TFormatter::get_final_serialised(uint8_t* buffer, size_t& buffer_len)
     r_entries=0;
     entries=1;
 }
-//todo:change the name
+
 void TFormatter::get_serialised(uint8_t* buffer,size_t& buffer_len)
 {
     _write_timestamp();
-    general_cbor_array[0]=161+r_entries;
+    general_cbor_array[0]=TFormatter::ARRAY+r_entries+1; //161
 
     for (int i=0; i<entries; i++)
     {
@@ -102,7 +102,7 @@ void TFormatter::write_string(const string& object_str)
 
 void TFormatter::_write_timestamp()
 {
-    write_string("t"); 
+    // write_string("t"); 
     write(TFormatter::RAW, TFormatter::TIME_TAG);
     write(TFormatter::RAW, TFormatter::INT4); 
     time_t time_now=time(NULL);
@@ -120,6 +120,10 @@ void TFormatter::get_entries(uint16_t& c_entries)
     c_entries=entries;
 }
 
+void TFormatter::increase_entries()
+{
+    entries++;
+}
 
 template<typename T>
 void TFormatter::_get_type(uint8_t& _data_type, T data)

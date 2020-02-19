@@ -82,7 +82,7 @@ class TFormatter
         void setup();
         /** Return a buffer of general_cbor_array added main cbor objects 
          */
-        void get_final_serialised(uint8_t* buffer,size_t& buffer_len);
+        void return_serialised(uint8_t* buffer,size_t& buffer_len);
         
         /**Add the Cbor main object 
          */
@@ -104,12 +104,18 @@ class TFormatter
          */
         void get_entries(uint16_t& c_entries);
         
+        void increase_entries();
+        
         /** Determine wich major type is the user using & save
          */
         template <typename DataType> 
         void write_num_type(DataType _input);
 
         private:
+        uint8_t* general_cbor_array=NULL;
+        uint16_t r_entries, entries;
+        bool _is_initialised;
+        
         /** Determine wich major type is the user using & save
          */
         template <typename T>
@@ -119,11 +125,7 @@ class TFormatter
          * Tag value 0 is for date/time strings that follow the standard format
          * described in [RFC3339]. */
         void _write_timestamp();
-
-        uint8_t* general_cbor_array=NULL;
-        uint16_t r_entries, entries;
-        bool _is_initialised;
-               
+        
 		// int TFormatter::deserialise(char *serialised,   uint16_t serialised_length_bytes,
         //                     		char *deserialised, uint16_t deserialised_length_bytes);
 };
