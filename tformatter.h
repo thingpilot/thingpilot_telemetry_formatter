@@ -82,7 +82,7 @@ class TFormatter
         void setup();
         /** Return a buffer of general_cbor_array added main cbor objects 
          */
-        void return_serialised(uint8_t* buffer,size_t& buffer_len);
+        uint8_t * return_serialised(size_t& buffer_len);
         
         /**Add the Cbor main object 
          */
@@ -105,6 +105,7 @@ class TFormatter
         void get_entries(uint16_t& c_entries);
         
         void increase_entries();
+        void decrease_entries();
         
         /** Determine wich major type is the user using & save
          */

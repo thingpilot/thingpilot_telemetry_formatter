@@ -22,10 +22,7 @@ TFormatter::TFormatter()
  */
 TFormatter::~TFormatter()
 {
-    if (general_cbor_array != NULL)
-    {
-       delete [] general_cbor_array;
-    }
+    delete [] general_cbor_array;
 }
 
 
@@ -33,13 +30,7 @@ void TFormatter::setup()
 {
     if(!_is_initialised)
     {
-        #if BOARD == EARHART_V1_0_0 
-            general_cbor_array= new uint8_t[1000]; 
-        #endif
-        #if BOARD == WRIGHT_V1_0_0
-            general_cbor_array= new uint8_t[4096];
-        #endif
-
+        general_cbor_array= new uint8_t[TP_TX_BUFFER+100]; 
         r_entries=0;
         entries=1;
         _is_initialised=true;
@@ -49,25 +40,23 @@ void TFormatter::setup()
 //the last thing to add
 void TFormatter::serialise_main_cbor_object(uint8_t num)
 {  
-    general_cbor_array[0]=163;
-    write_string("UID"); 
+   
+    general_cbor_array[0]=162;
+    write_string("uniqueId"); 
     write_string(UID);
-    write_string("PID"); 
-    write_string(PID);
-    write_string("MG");
+    write_string("metricsGroups");
     write(num, ARRAY);
+    
 }
 
-void TFormatter::return_serialised(uint8_t* buffer, size_t& buffer_len)
+uint8_t * TFormatter::return_serialised(size_t& buffer_len)
 {
-    for (int i=0; i<entries; i++)
-    {
-        buffer[i]=general_cbor_array[i];
-    }
-    delete [] general_cbor_array;
+ 
     buffer_len=entries;
     r_entries=0;
     entries=1;
+
+    return general_cbor_array;
 }
 
 void TFormatter::get_serialised(uint8_t* buffer,size_t& buffer_len)
@@ -90,7 +79,6 @@ void TFormatter::write(uint8_t num, int cbor_codes)
     entries++;
 }
 
-
 void TFormatter::write_string(const string& object_str)
 {
     write(object_str.length(), TFormatter::TEXT);
@@ -102,7 +90,6 @@ void TFormatter::write_string(const string& object_str)
 
 void TFormatter::_write_timestamp()
 {
-    // write_string("t"); 
     write(TFormatter::RAW, TFormatter::TIME_TAG);
     write(TFormatter::RAW, TFormatter::INT4); 
     time_t time_now=time(NULL);
@@ -123,6 +110,11 @@ void TFormatter::get_entries(uint16_t& c_entries)
 void TFormatter::increase_entries()
 {
     entries++;
+}
+
+void TFormatter::decrease_entries()
+{
+    entries--;
 }
 
 template<typename T>
