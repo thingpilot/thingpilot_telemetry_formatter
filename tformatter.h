@@ -12,16 +12,37 @@
 
 /** Includes 
  */
-#include <mbed.h>
+//#include <mbed.h>
+//#include <string.h>
 #include <string>
-#include "config_device.h"
+#include <iostream>
+using namespace std;
+//#include "config_device.h"
 
+
+#ifndef TP_TX_BUFFER
+#define TP_TX_BUFFER 100
+#endif
+
+#ifndef UID
+#define UID "000000-0000-0000-0000-0000000000"
+#endif
+
+#ifndef DEVID
+#define DEVID DTID
+#endif
+
+#ifndef TP_TX_BUFFER
+#define TP_TX_BUFFER 200
+#endif
 /** Base class for the Thingpilot telemetry formatter
  */
+
 class TFormatter
 {
 
 	public:
+       
 
 		/** Enumerated list of formats to which TFormatter can
 		 *  serialise data
@@ -50,6 +71,7 @@ class TFormatter
         enum CBOR_CODES : uint8_t
 		{
 			RAW             = 0,
+
             INT1            = 24, //1 byte
             INT2            = 25,
             INT4            = 26,
@@ -76,7 +98,9 @@ class TFormatter
 		/** Class destructor
 		 */
 		~TFormatter();
-        
+
+
+        void add_metric0(float lat, float lon, const string time_str);
         /** Create an array 
          */
         void setup();
